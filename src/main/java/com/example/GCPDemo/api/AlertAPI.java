@@ -16,6 +16,7 @@ public class AlertAPI {
 
     @RequestMapping(value = "/alert", method = RequestMethod.POST)
     public ResponseEntity<?> saveAlert(@RequestBody AlertMessage alertMessage) throws InterruptedException {
+        System.out.println("Save new alert coming: " + alertMessage.getMessage());
         alertService.saveAlert(alertMessage);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }

@@ -1,6 +1,6 @@
 package com.example.GCPDemo.dao;
 
-import com.example.GCPDemo.constant.AppContant;
+import com.example.GCPDemo.constant.AppConstant;
 import com.example.GCPDemo.model.AlertMessage;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
@@ -12,8 +12,8 @@ public class AlertDAO {
 
     public void saveAlertToDB(AlertMessage alertMessage) throws InterruptedException {
         BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
-        String query = String.format(AppContant.queryInsertAlertToGCP,
-                AppContant.projectName, AppContant.datasetName, AppContant.tableName,
+        String query = String.format(AppConstant.queryInsertAlertToGCP,
+                AppConstant.projectName, AppConstant.datasetName, AppConstant.tableName,
                 alertMessage.getCode(),
                 alertMessage.getMessage(), alertMessage.getStore(), alertMessage.getMarket(), alertMessage.getCountry(), alertMessage.getTime());
 

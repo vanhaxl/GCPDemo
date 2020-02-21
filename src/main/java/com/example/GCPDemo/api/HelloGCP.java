@@ -11,6 +11,4 @@ public class HelloGCP {
     public String hello(){
         return "hello GCP";
     }
-
-
 }
