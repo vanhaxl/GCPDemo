@@ -27,6 +27,6 @@ public class SplunkAlertService {
         System.out.println("REsult:");
         System.out.println(objectSerializer.serializeObject(splunkAlertMessage));
 
-        //alertDAO.saveAlertToDB(alertMessage);
+        splunkAlertDAO.saveAlertToDB(splunkAlertMessage);
     }
 }
