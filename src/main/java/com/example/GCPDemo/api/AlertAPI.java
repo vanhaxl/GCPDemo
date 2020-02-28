@@ -6,6 +6,7 @@ import com.example.GCPDemo.model.AlertMessage;
 import com.example.GCPDemo.model.SplunkAlertMessage;
 import com.example.GCPDemo.model.SpotlightSplunkAlert;
 import com.example.GCPDemo.service.AlertService;
+import com.example.GCPDemo.service.PrometheusAlertService;
 import com.example.GCPDemo.service.SplunkAlertService;
 import com.example.GCPDemo.util.ObjectSerializer;
 import com.sun.scenario.effect.light.SpotLight;
@@ -23,6 +24,9 @@ public class AlertAPI {
     private SplunkAlertService splunkAlertService;
 
     @Autowired
+    private PrometheusAlertService prometheusAlertService;
+
+    @Autowired
     private ObjectSerializer objectSerializer;
 
     @RequestMapping(value = "/alert", method = RequestMethod.POST)
@@ -37,6 +41,14 @@ public class AlertAPI {
         System.out.println("Save new splunk alert coming: ");
         System.out.println(alertMessage);
         splunkAlertService.saveAlert(alertMessage);
+        return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/alert/prometheus", method = RequestMethod.POST)
+    public ResponseEntity<?> saveAlertPrometheus(@RequestBody String alertMessage) throws InterruptedException {
+        System.out.println("Save new prometheus alert coming: ");
+        System.out.println(alertMessage);
+        prometheusAlertService.saveAlert(alertMessage);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 

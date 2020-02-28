@@ -2,6 +2,7 @@ package com.example.GCPDemo.mapper;
 
 import com.example.GCPDemo.model.CustomMessage;
 import com.example.GCPDemo.model.SplunkAlertMessage;
+import com.example.GCPDemo.util.DateTimeUtil;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -20,7 +21,7 @@ public class SplunkAlertMapper {
         SplunkAlertMessage splunkAlertMessage = new SplunkAlertMessage();
         splunkAlertMessage.setAlertType(arr[0]);
         splunkAlertMessage.setTag(arr[1]);
-        splunkAlertMessage.setOccurrenceTime(mapInstantToZoneDateTime(arr[2]));
+        splunkAlertMessage.setOccurrenceTime(DateTimeUtil.mapInstantToZoneDateTime(arr[2]));
 
         CustomMessage customMessage = mapCustomMessage(arr[3]);
         splunkAlertMessage.setStoreNumber(customMessage.getStoreNumber());
