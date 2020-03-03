@@ -1,5 +1,8 @@
 package com.example.GCPDemo.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AppConstant {
 
     public static final String queryInsertAlertToGCP = "insert into `%s`.%s.%s (code, message, store, market, country, time) values (%d, \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")";
@@ -22,6 +25,13 @@ public class AppConstant {
 
     public static final String TABLE_PROMETHEUS_ALERT = "prometheus_alert";
 
+
+    public static final List<String> appNames = Arrays.asList(
+            "cpc-bin-service", "cpc-cart-app", "cpc-checkout-app",
+            "cpc-oper-auth", "cpc-order-management", "cpc-payment-auth",
+            "cpc-tc-service", "girservice", "posoe", "receipt-service-app",
+            "secrets-manager-cpc", "tiller-deploy", "wmtwebpos"
+    );
 
 
 }

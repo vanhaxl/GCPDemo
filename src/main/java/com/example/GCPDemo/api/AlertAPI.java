@@ -1,19 +1,19 @@
 package com.example.GCPDemo.api;
 
 
-import com.example.GCPDemo.dao.Model;
 import com.example.GCPDemo.model.AlertMessage;
-import com.example.GCPDemo.model.SplunkAlertMessage;
-import com.example.GCPDemo.model.SpotlightSplunkAlert;
 import com.example.GCPDemo.service.AlertService;
+import com.example.GCPDemo.service.DynatraceAlertService;
 import com.example.GCPDemo.service.PrometheusAlertService;
 import com.example.GCPDemo.service.SplunkAlertService;
 import com.example.GCPDemo.util.ObjectSerializer;
-import com.sun.scenario.effect.light.SpotLight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AlertAPI {
@@ -27,7 +27,7 @@ public class AlertAPI {
     private PrometheusAlertService prometheusAlertService;
 
     @Autowired
-    private ObjectSerializer objectSerializer;
+    private DynatraceAlertService dynatraceAlertService;
 
     @RequestMapping(value = "/alert", method = RequestMethod.POST)
     public ResponseEntity<?> saveAlert(@RequestBody AlertMessage alertMessage) throws InterruptedException {
@@ -49,6 +49,14 @@ public class AlertAPI {
         System.out.println("Save new prometheus alert coming: ");
         System.out.println(alertMessage);
         prometheusAlertService.saveAlert(alertMessage);
+        return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/alert/dynatrace", method = RequestMethod.POST)
+    public ResponseEntity<?> saveAlertDynatrace(@RequestBody String alertMessage) throws InterruptedException {
+        System.out.println("Save new dynatrace alert coming: ");
+        System.out.println(alertMessage);
+        dynatraceAlertService.saveAlert(alertMessage);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
