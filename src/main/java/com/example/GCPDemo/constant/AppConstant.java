@@ -13,9 +13,12 @@ public class AppConstant {
     public static final String queryInsertPrometheusAlertToGCP = "insert into `%s`.%s.%s (alert_name, store_number, cluster_region, container, namespace, pod, severity, message, occurrence_time) " +
             "values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")";
 
-    public static final String PROJECT_NAME = "valiant-guild-268220";
+    public static final String queryInsertDynatraceAlertToGCP = "insert into `%s`.%s.%s (status, problem_id, problem_title, impacted_entity, store_number, app_names, occurrence_time) " +
+            "values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")";
 
-    public static final String DATASET_NAME = "mydataset";
+    public static final String PROJECT_NAME = "wmt-ct-insights-dev";
+
+    public static final String DATASET_NAME = "SRT_Alerts";
 
     public static final String tableName = "alert";
 

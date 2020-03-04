@@ -30,6 +30,6 @@ public class DynatraceAlertService {
         System.out.println("Result:");
         System.out.println(objectSerializer.serializeObject(dynatraceAlertMessage));
 
-        //dynatraceAlertDAO.saveAlertToDB(dynatraceAlertMessage);
+        dynatraceAlertDAO.saveAlertToDB(dynatraceAlertMessage);
     }
 }
