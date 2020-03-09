@@ -1,5 +1,6 @@
 package com.example.GCPDemo.dao;
 
+import com.example.GCPDemo.config.BigQueryConfig;
 import com.example.GCPDemo.constant.AppConstant;
 import com.example.GCPDemo.model.SplunkAlertMessage;
 import com.example.GCPDemo.util.ObjectSerializer;
@@ -16,6 +17,9 @@ public class SplunkAlertDAO {
     @Autowired
     private ObjectSerializer objectSerializer;
 
+    @Autowired
+    private BigQueryConfig bigQueryConfig;
+
     public void saveAlertToDB(SplunkAlertMessage splunkAlertMessage) throws InterruptedException {
         BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
 
@@ -31,7 +35,7 @@ public class SplunkAlertDAO {
         row.put("tag", splunkAlertMessage.getTag());
         row.put("occurrence_time", splunkAlertMessage.getOccurrenceTime());
 
-        TableId tableId = TableId.of(AppConstant.PROJECT_NAME, AppConstant.DATASET_NAME, AppConstant.TABLE_SPLUNK_ALERT);
+        TableId tableId = TableId.of(bigQueryConfig.getProjectName(), bigQueryConfig.getDatasetName(), bigQueryConfig.getTableSplunk());
         InsertAllRequest insertRequest = InsertAllRequest.newBuilder(tableId).addRow(row).build();
         InsertAllResponse insertResponse = bigquery.insertAll(insertRequest);
 

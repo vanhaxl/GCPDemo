@@ -1,5 +1,6 @@
 package com.example.GCPDemo.dao;
 
+import com.example.GCPDemo.config.BigQueryConfig;
 import com.example.GCPDemo.constant.AppConstant;
 import com.example.GCPDemo.model.DynatraceAlertMessage;
 import com.example.GCPDemo.util.ObjectSerializer;
@@ -16,6 +17,9 @@ public class DynatraceAlertDAO {
     @Autowired
     private ObjectSerializer objectSerializer;
 
+    @Autowired
+    private BigQueryConfig bigQueryConfig;
+
     public void saveAlertToDB(DynatraceAlertMessage dynatraceAlertMessage) throws InterruptedException {
         BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
 
@@ -28,7 +32,7 @@ public class DynatraceAlertDAO {
         row.put("app_names", objectSerializer.serializeObject(dynatraceAlertMessage.getAppNames()));
         row.put("occurrence_time", dynatraceAlertMessage.getOccurrenceTime());
 
-        TableId tableId = TableId.of(AppConstant.PROJECT_NAME, AppConstant.DATASET_NAME, AppConstant.TABLE_DYNATRACE_ALERT);
+        TableId tableId = TableId.of(bigQueryConfig.getProjectName(), bigQueryConfig.getDatasetName(), bigQueryConfig.getTableDynatrace());
         InsertAllRequest insertRequest = InsertAllRequest.newBuilder(tableId).addRow(row).build();
         InsertAllResponse insertResponse = bigquery.insertAll(insertRequest);
 

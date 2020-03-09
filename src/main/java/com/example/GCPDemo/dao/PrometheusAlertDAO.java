@@ -1,5 +1,6 @@
 package com.example.GCPDemo.dao;
 
+import com.example.GCPDemo.config.BigQueryConfig;
 import com.example.GCPDemo.constant.AppConstant;
 import com.example.GCPDemo.model.PrometheusAlertMessage;
 import com.example.GCPDemo.util.ObjectSerializer;
@@ -17,6 +18,9 @@ public class PrometheusAlertDAO {
 
     @Autowired
     private ObjectSerializer objectSerializer;
+
+    @Autowired
+    private BigQueryConfig bigQueryConfig;
 
     public void saveAlertToDB(List<PrometheusAlertMessage> prometheusAlertMessages) {
         BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
@@ -38,7 +42,7 @@ public class PrometheusAlertDAO {
             rows.add(row);
         }
 
-        TableId tableId = TableId.of(AppConstant.PROJECT_NAME, AppConstant.DATASET_NAME, AppConstant.TABLE_PROMETHEUS_ALERT);
+        TableId tableId = TableId.of(bigQueryConfig.getProjectName(), bigQueryConfig.getDatasetName(), bigQueryConfig.getTablePrometheus());
         InsertAllRequest insertRequest = InsertAllRequest.newBuilder(tableId, rows).build();
         InsertAllResponse insertResponse = bigquery.insertAll(insertRequest);
 
