@@ -4,9 +4,11 @@ import com.example.GCPDemo.dao.SplunkAlertDAO;
 import com.example.GCPDemo.mapper.SplunkAlertMapper;
 import com.example.GCPDemo.model.SplunkAlertMessage;
 import com.example.GCPDemo.util.ObjectSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class SplunkAlertService {
 
@@ -17,15 +19,13 @@ public class SplunkAlertService {
     private SplunkAlertMapper splunkAlertMapper;
 
     @Autowired
-    ObjectSerializer objectSerializer;
+    private ObjectSerializer objectSerializer;
 
     public void saveAlert(String alertMessage) throws InterruptedException {
-        System.out.println(alertMessage);
 
         SplunkAlertMessage splunkAlertMessage = splunkAlertMapper.mapSplunkAlertMessage(alertMessage);
 
-        System.out.println("REsult:");
-        System.out.println(objectSerializer.serializeObject(splunkAlertMessage));
+        log.info("Splunk alert after mapping: {}", objectSerializer.serializeObject(splunkAlertMessage));
 
         splunkAlertDAO.saveAlertToDB(splunkAlertMessage);
     }

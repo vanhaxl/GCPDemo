@@ -28,6 +28,11 @@ public class AppConstant {
 
     public static final String TABLE_PROMETHEUS_ALERT = "prometheus_alert";
 
+    public static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+    public static final String TIME_ZONE_CST = "America/Chicago";
+    public static final String TIME_ZONE_UTC = "UTC";
+
 
     public static final List<String> appNames = Arrays.asList(
             "cpc-bin-service", "cpc-cart-app", "cpc-checkout-app",
