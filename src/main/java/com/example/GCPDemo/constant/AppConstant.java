@@ -17,10 +17,10 @@ public class AppConstant {
             "values (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")";
 
     public static final String PROJECT_NAME = "wmt-ct-insights-dev";
+    //public static final String PROJECT_NAME = "valiant-guild-268220";
 
     public static final String DATASET_NAME = "SRT_Alerts";
-
-    public static final String tableName = "alert";
+    //public static final String DATASET_NAME = "mydataset";
 
     public static final String TABLE_SPLUNK_ALERT = "splunk_alert";
 

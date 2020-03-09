@@ -2,30 +2,41 @@ package com.example.GCPDemo.dao;
 
 import com.example.GCPDemo.constant.AppConstant;
 import com.example.GCPDemo.model.SplunkAlertMessage;
-import com.google.cloud.bigquery.BigQuery;
-import com.google.cloud.bigquery.BigQueryOptions;
-import com.google.cloud.bigquery.QueryJobConfiguration;
+import com.example.GCPDemo.util.ObjectSerializer;
+import com.google.cloud.bigquery.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class SplunkAlertDAO {
 
+    @Autowired
+    private ObjectSerializer objectSerializer;
+
     public void saveAlertToDB(SplunkAlertMessage splunkAlertMessage) throws InterruptedException {
         BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
-        String query = String.format(AppConstant.queryInsertSplunkAlertToGCP,
-                AppConstant.PROJECT_NAME, AppConstant.DATASET_NAME, AppConstant.TABLE_SPLUNK_ALERT,
-                splunkAlertMessage.getAlertType(),
-                splunkAlertMessage.getCustomMessage(),
-                splunkAlertMessage.getStoreNumber(),
-                splunkAlertMessage.getRegisterNumber(),
-                splunkAlertMessage.getClientRequestId(),
-                splunkAlertMessage.getRequestId(),
-                splunkAlertMessage.getRequestRoute(),
-                splunkAlertMessage.getResponseBody(),
-                splunkAlertMessage.getTag(),
-                splunkAlertMessage.getOccurrenceTime());
 
-        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
-        bigquery.query(queryConfig);
+        Map<String, Object> row = new HashMap<>();
+        row.put("alert_type", splunkAlertMessage.getAlertType());
+        row.put("custom_message", splunkAlertMessage.getCustomMessage());
+        row.put("store_number", splunkAlertMessage.getStoreNumber());
+        row.put("register_number", splunkAlertMessage.getRegisterNumber());
+        row.put("client_request_id", splunkAlertMessage.getClientRequestId());
+        row.put("request_id", splunkAlertMessage.getRequestId());
+        row.put("request_route", splunkAlertMessage.getRequestRoute());
+        row.put("response_body", splunkAlertMessage.getResponseBody());
+        row.put("tag", splunkAlertMessage.getTag());
+        row.put("occurrence_time", splunkAlertMessage.getOccurrenceTime());
+
+        TableId tableId = TableId.of(AppConstant.PROJECT_NAME, AppConstant.DATASET_NAME, AppConstant.TABLE_SPLUNK_ALERT);
+        InsertAllRequest insertRequest = InsertAllRequest.newBuilder(tableId).addRow(row).build();
+        InsertAllResponse insertResponse = bigquery.insertAll(insertRequest);
+
+        if (insertResponse.hasErrors()) {
+            System.out.println("Errors occurred while inserting splunk alert: " + objectSerializer.serializeObject(splunkAlertMessage));
+        }
     }
 }

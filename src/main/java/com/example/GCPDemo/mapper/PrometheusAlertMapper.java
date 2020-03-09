@@ -63,6 +63,7 @@ public class PrometheusAlertMapper {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
+            if(c == '-') break;
             if (Character.isDigit(c)) {
                 sb.append(c);
             }
